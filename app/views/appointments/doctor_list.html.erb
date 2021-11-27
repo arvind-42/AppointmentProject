@@ -1,0 +1,11 @@
+
+<h1>Doctor List</h1>
+
+<div class="container">
+   <% @doctors.each do |d| %>
+    <p>Dr.<%= d.fullname %></p>
+    <%= link_to 'Make', appointment_make_path(d) %>
+    <hr>
+<%end%>
+<%= link_to 'Back', appointments_path %>
+</div>

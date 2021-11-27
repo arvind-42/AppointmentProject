@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demo2</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body class="m-0 p-0">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <% if patient_signed_in? %>
+        <li class="nav-item">
+        <%= link_to 'Make New Appointment', doctors_list_path,class:"nav-link active " %>
+        </li>
+        <% end %>
+          <% if ( patient_signed_in? || doctor_signed_in? ) %>
+             
+          <% else %>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Log In
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><%= link_to 'Doctor Login',  doctor_session_path,class: "dropdown-item" %></li>
+                <li><%= link_to 'Patient Login', patient_session_path,class: "dropdown-item" %></li>
+              </ul>
+            </li>
+          <% end %>
+
+        <li class="nav-item">
+          <% if doctor_signed_in? %>
+           <%= link_to 'Patients List', appointments_path,class: "nav-link text-white" %>
+          <%end%>
+        </li>
+
+      </ul>
+      <% if patient_signed_in? %>
+        <form class="d-flex">
+          <%= link_to 'Logout', destroy_patient_session_path,method: :delete,class:"btn btn-outline-success " %>
+        </form>
+     <% end %>
+     <% if doctor_signed_in? %>
+      <form class="d-flex">
+        <%= link_to 'Logout', destroy_doctor_session_path,method: :delete,class: "btn btn-outline-success" %>    </form>
+      <% end %>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <% if notice %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <%= notice %>
+  </div>
+  <% end %>
+  <% if alert %>
+  <p class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= alert %>
+  </p>
+  <% end %>
+</div>
+
+    <%= yield %>
+  </body>
+</html>
